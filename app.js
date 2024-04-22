@@ -189,9 +189,15 @@ const botIsBlocked = async (chatId) => {
 };
 
 bot.start(async (ctx) => {
+  let userExists = await checkIfUserAlreadyExists(userId);
+
+  //Show account information if user already exists
+  if (userExists) {
+    return await showUserDetails(userId, ctx);
+  }
+
   const inviteId = ctx.payload;
   const userId = ctx.from.id;
-  let userExists = await checkIfUserAlreadyExists(userId);
   let linkFirstChunk = "t.me/tonfantoken_bot?start=";
   //If user started the bot via a referral link
   if (inviteId) {
@@ -199,6 +205,7 @@ bot.start(async (ctx) => {
     const linkOwnerData = await BotUser.findOne({
       referralLink: linkFirstChunk + inviteId,
     });
+
     if (!linkOwnerData) {
       return ctx.reply(
         "Sorry that link is invalid. Please check and try again."
@@ -266,7 +273,10 @@ bot.start(async (ctx) => {
       }
 
       if (userData) {
-        return ctx.reply(`You already have an account with us.\n\nKeep sharing your referral links to earn more TFT😍🤩🤩\n\n\`${userData.referralLink}\` _(Tap to copy)_`, {parse_mode:"Markdown"});
+        return ctx.reply(
+          `You already have an account with us.\n\nKeep sharing your referral links to earn more TFT😍🤩🤩\n\n\`${userData.referralLink}\` _(Tap to copy)_`,
+          { parse_mode: "Markdown" }
+        );
       }
     }
 
@@ -288,12 +298,6 @@ bot.start(async (ctx) => {
   //   console.log(ctx.from.username)
   //  return
   // }
-
-  //Show account information if user already exists
-  if (userExists) {
-    await showUserDetails(userId, ctx);
-    return;
-  }
 
   //Sends this if user wasn't referred and they don't have an account yet.
   // takenAddress = false;
