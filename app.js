@@ -236,14 +236,20 @@ bot.start(async (ctx) => {
               inline_keyboard: [
                 [
                   {
-                    text: "Task 1: Follow us on twitter 𝕏",
-                    url: "https://x.com/ton_fan_token",
+                    text: "Task 1: Follow Ton Identity on 𝕏",
+                    url: "https://x.com/ton_identity",
                   },
                 ],
                 [
                   {
                     text: "Task 2: Subscribe to our telegram channel ➤",
                     url: "https://t.me/ton_idz",
+                  },
+                ],
+                [
+                  {
+                    text: "Task 3: Follow us on Ton Fan Token on 𝕏",
+                    url: "https://x.com/ton_fan_token",
                   },
                 ],
                 [
@@ -291,14 +297,20 @@ bot.start(async (ctx) => {
       inline_keyboard: [
         [
           {
-            text: "Task 1: Follow us on twitter 𝕏",
-            url: "https://x.com/ton_fan_token",
+            text: "Task 1: Follow Ton Identity on 𝕏",
+            url: "https://x.com/ton_identity",
           },
         ],
         [
           {
             text: "Task 2: Subscribe to our telegram channel ➤",
             url: "https://t.me/ton_idz",
+          },
+        ],
+        [
+          {
+            text: "Task 3: Follow us on Ton Fan Token on 𝕏",
+            url: "https://x.com/ton_fan_token",
           },
         ],
         [
