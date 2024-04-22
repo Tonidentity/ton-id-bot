@@ -189,6 +189,7 @@ const botIsBlocked = async (chatId) => {
 };
 
 bot.start(async (ctx) => {
+  const userId = ctx.from.id;
   let userExists = await checkIfUserAlreadyExists(userId);
 
   //Show account information if user already exists
@@ -197,7 +198,6 @@ bot.start(async (ctx) => {
   }
 
   const inviteId = ctx.payload;
-  const userId = ctx.from.id;
   let linkFirstChunk = "t.me/tonfantoken_bot?start=";
   //If user started the bot via a referral link
   if (inviteId) {
