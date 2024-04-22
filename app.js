@@ -248,7 +248,7 @@ bot.start(async (ctx) => {
                 ],
                 [
                   {
-                    text: "Task 3: Follow us on Ton Fan Token on 𝕏",
+                    text: "Task 3: Follow Ton Fan Token on 𝕏",
                     url: "https://x.com/ton_fan_token",
                   },
                 ],
@@ -309,7 +309,7 @@ bot.start(async (ctx) => {
         ],
         [
           {
-            text: "Task 3: Follow us on Ton Fan Token on 𝕏",
+            text: "Task 3: Follow Ton Fan Token on 𝕏",
             url: "https://x.com/ton_fan_token",
           },
         ],
