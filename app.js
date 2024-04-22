@@ -228,6 +228,7 @@ bot.start(async (ctx) => {
     if (alreadyReferred.result) {
       //Check if they have no account
       const userData = await BotUser.findOne({ userId });
+      //If they don't haven't complete their tasks
       if (!userData) {
         return ctx.reply(
           `You have already been referred, but you haven't completed your tasks.\n\nComplete the tasks below to continue:`,
@@ -262,6 +263,10 @@ bot.start(async (ctx) => {
             },
           }
         );
+      }
+
+      if (userData) {
+        return ctx.reply(`You already have an account with us.\n\nKeep sharing your referral links to earn more TFT😍🤩🤩\n\n\`${userData.referralLink}\` _(Tap to copy)_`, {parse_mode:"Markdown"});
       }
     }
 
