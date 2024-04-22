@@ -1,13 +1,13 @@
 const showMessageToReferredUser = (referrerUsername, ctx) => {
   let replyText = `*Welcome to Ton identity network!*
   
-    You were referred by @${referrerUsername}
+You were referred by @${referrerUsername}
     
-    Ton identity network is an unofficial network of ton everyday users and passionate.😇
+Ton identity network is an unofficial network of ton everyday users and passionate.😇
   
-    Pioneering the first Blockchain fan token which is Ton Fan Token "TFT"
+Pioneering the first Blockchain fan token which is Ton Fan Token "TFT"
     
-    Keep sharing keep earning! Free TFT 😍\n\nComplete the tasks below:`;
+Keep sharing keep earning! Free TFT 😍\n\nComplete the tasks below:`;
 
   const replyMarkup = {
     reply_markup: {
