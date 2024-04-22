@@ -3,7 +3,7 @@ const showMessageToReferredUser = require("./showMessageToReferredUser");
 const handleReferral = async (ctx, linkOwnerData, idOfNewUser) => {
   try {
     linkOwnerData.referralsCount = linkOwnerData.referralsCount + 1;
-    linkOwnerData.balance = linkOwnerData.balance + 1000;
+    linkOwnerData.balance = linkOwnerData.balance + 200;
     linkOwnerData.referredUsers = [...linkOwnerData.referredUsers, idOfNewUser];
     await linkOwnerData.save();
 
