@@ -147,47 +147,52 @@ Pioneering the first Blockchain fan token which is Ton Fan Token "TFT"
 Keep sharing keep earning! Free TFT 😍\n\nComplete the tasks below:`;
 
 const showUserDetails = async (userId, ctx, clickedReferralLink) => {
-  const userInfo = await BotUser.findOne({ userId });
-  if (!userInfo) {
-    return;
+  try {
+    const userInfo = await BotUser.findOne({ userId });
+    if (!userInfo) {
+      return;
+    }
+
+    //Update full name and username if user changed them after using the bot initially
+    const {
+      name,
+      username,
+      walletAddress,
+      referralLink,
+      balance,
+      referralsCount,
+    } = userInfo;
+    const currentName = `${ctx.from.first_name} ${ctx.from.lastName || ""}`;
+    const currentUsername = ctx.from.username;
+
+    if (name !== currentName || username !== currentUsername) {
+      //Save updated details
+      await BotUser.findOneAndUpdate(
+        { userId },
+        {
+          name: currentName,
+          username: currentUsername,
+        }
+      );
+    }
+
+    if (clickedReferralLink) {
+      return ctx.reply(
+        `You already have an account.\n\nKeep sharing your referral link to earn more TFT.\n\nReferral link:\n\n*\`${referralLink}\`* _*(Tap to copy)*_`,
+        { parse_mode: "Markdown" }
+      );
+    }
+
+    //Display user information
+    const totalReferralEarnings = balance - initialBalance;
+    const message = `Name: *${currentName}*\n\nUsername: *${currentUsername}*\n\nWallet Address: *${walletAddress}*\n\nBalance: *${balance} TFT*\n\nTotal Referrals: *${referralsCount}*\n\nAmount earned from referrals: *${totalReferralEarnings} TFT*\n\nKeep sharing your referral link with friends, to earn *200 TFT per referral*.\n\nReferral Link:[ ](t.me/ton_idz)\n*\`${referralLink}\`* _*(Tap to copy)*_`;
+    ctx.telegram.sendMessage(ctx.chat.id, message, {
+      parse_mode: "Markdown",
+    });
+  } catch (error) {
+    console.log(error);
+    ctx.reply("Sorry i missed that. Please try again.");
   }
-
-  //Update full name and username if user changed them after using the bot initially
-  const {
-    name,
-    username,
-    walletAddress,
-    referralLink,
-    balance,
-    referralsCount,
-  } = userInfo;
-  const currentName = `${ctx.from.first_name} ${ctx.from.lastName || ""}`;
-  const currentUsername = ctx.from.username;
-
-  if (name !== currentName || username !== currentUsername) {
-    //Save updated details
-    await BotUser.findOneAndUpdate(
-      { userId },
-      {
-        name: currentName,
-        username: currentUsername,
-      }
-    );
-  }
-
-  if (clickedReferralLink) {
-    return ctx.reply(
-      `You already have an account.\n\nKeep sharing your referral link to earn more TFT.\n\nReferral link:\n\n*\`${referralLink}*\` _*(Tap to copy)*_`,
-      { parse_mode: "Markdown" }
-    );
-  }
-
-  //Display user information
-  const totalReferralEarnings = balance - initialBalance;
-  const message = `Name: *${currentName}*\n\nUsername: *${currentUsername}*\n\nWallet Address: *${walletAddress}*\n\nBalance: *${balance} TFT*\n\nTotal Referrals: *${referralsCount}*\n\nAmount earned from referrals: *${totalReferralEarnings} TFT*\n\nKeep sharing your referral link with friends, to earn *200 TFT per referral*.\n\nReferral Link:[ ](t.me/ton_idz)\n\`${referralLink}\` _(Tap to copy)_`;
-  ctx.telegram.sendMessage(ctx.chat.id, message, {
-    parse_mode: "Markdown",
-  });
 };
 
 //Checked if user blocked the user
@@ -231,7 +236,7 @@ bot.start(async (ctx) => {
       if (linkOwnerData.userId == userId) {
         return ctx.reply(
           `You clicked your own link.\nSorry, you cannot refer yourself.\n\nKeep sharing your link with others to earn more TFT. [ ](t.me/ton_idz)
-  \n\`${linkOwnerData.referralLink}\` _(Tap to copy)_`,
+  \n*\`${linkOwnerData.referralLink}\`* _*(Tap to copy)*_`,
           {
             parse_mode: "Markdown",
           }
@@ -289,7 +294,7 @@ bot.start(async (ctx) => {
 
         if (userData) {
           return ctx.reply(
-            `You already have an account with us.\n\nKeep sharing your referral links to earn more TFT😍🤩🤩\n\n\`${userData.referralLink}\` _(Tap to copy)_`,
+            `You already have an account with us.\n\nKeep sharing your referral links to earn more TFT😍🤩🤩\n\n*\`${userData.referralLink}\`* _*(Tap to copy)*_`,
             { parse_mode: "Markdown" }
           );
         }
@@ -433,7 +438,7 @@ bot.on("message", async (ctx) => {
         // If wallet is valid
         await ctx.reply(
           `Thanks!😊\nWe have received your wallet address!
-        \nWait for Airdrop👍\n\nShare your referral link with friends, to earn 200 TFT per referral.\n\nReferral Link:\n\n\`${newReferralLink}\` _(Tap to copy)_`,
+        \nWait for Airdrop👍\n\nShare your referral link with friends, to earn 200 TFT per referral.\n\nReferral Link:\n\n*\`${newReferralLink}\`* _*(Tap to copy)*_`,
           { parse_mode: "Markdown" }
         );
         // isDone = false;
