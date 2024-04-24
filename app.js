@@ -177,7 +177,7 @@ const showUserDetails = async (userId, ctx, clickedReferralLink) => {
 
   if (clickedReferralLink) {
     return ctx.reply(
-      `You already have an account.\n\nKeep sharing your referral link to earn more TFT.\n\nReferral link:\n\`${referralLink}\`_(Tap to copy)_`,
+      `You already have an account.\n\nKeep sharing your referral link to earn more TFT.\n\nReferral link:\n\n*\`${referralLink}*\` _*(Tap to copy)*_`,
       { parse_mode: "Markdown" }
     );
   }
