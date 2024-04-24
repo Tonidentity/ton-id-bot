@@ -178,14 +178,14 @@ const showUserDetails = async (userId, ctx, clickedReferralLink) => {
 
     if (clickedReferralLink) {
       return ctx.reply(
-        `You already have an account.\n\nKeep sharing your referral link to earn more TFT.\n\nReferral link:[ ](t.me/ton_idz)\n\n\`${referralLink}\` *_(Tap to copy)_*`,
+        `You already have an account.\n\nKeep sharing your referral link to earn more TFT.\n\nReferral link:[ ](t.me/ton_idz)\n\n\`${referralLink}\`\n_(Tap to copy)_`,
         { parse_mode: "Markdown", disable_web_page_preview:true }
       );
     }
 
     //Display user information
     const totalReferralEarnings = balance - initialBalance;
-    const message = `Name: *${currentName}*\n\nUsername: *${currentUsername}*\n\nWallet Address: *${walletAddress}*\n\nBalance: *${balance} TFT*\n\nTotal Referrals: *${referralsCount}*\n\nAmount earned from referrals: *${totalReferralEarnings} TFT*\n\nKeep sharing your referral link with friends, to earn *200 TFT per referral*.\n\nReferral Link:[ ](t.me/ton_idz)\n\`${referralLink}\` *_(Tap to copy)_*`;
+    const message = `Name: *${currentName}*\n\nUsername: *${currentUsername}*\n\nWallet Address: *${walletAddress}*\n\nBalance: *${balance} TFT*\n\nTotal Referrals: *${referralsCount}*\n\nAmount earned from referrals: *${totalReferralEarnings} TFT*\n\nKeep sharing your referral link with friends, to earn *200 TFT per referral*.\n\nReferral Link:[ ](t.me/ton_idz)\n\`${referralLink}\`\n_(Tap to copy)_`;
     ctx.telegram.sendMessage(ctx.chat.id, message, {
       parse_mode: "Markdown",
     });
@@ -236,7 +236,7 @@ bot.start(async (ctx) => {
       if (linkOwnerData.userId == userId) {
         return ctx.reply(
           `You clicked your own link.\nSorry, you cannot refer yourself.\n\nKeep sharing your link with others to earn more TFT. [ ](t.me/ton_idz)
-  \n\`${linkOwnerData.referralLink}\` *_(Tap to copy)_*`,
+  \n\`${linkOwnerData.referralLink}\`\n_(Tap to copy)_`,
           {
             parse_mode: "Markdown",
           }
@@ -294,7 +294,7 @@ bot.start(async (ctx) => {
 
         if (userData) {
           return ctx.reply(
-            `You already have an account with us.\n\nKeep sharing your referral links to earn more TFT😍🤩🤩\n\n\`${userData.referralLink}\` *_(Tap to copy)_*`,
+            `You already have an account with us.\n\nKeep sharing your referral links to earn more TFT😍🤩🤩\n\n\`${userData.referralLink}\`\n_(Tap to copy)_`,
             { parse_mode: "Markdown" }
           );
         }
@@ -438,7 +438,7 @@ bot.on("message", async (ctx) => {
         // If wallet is valid
         await ctx.reply(
           `Thanks!😊\nWe have received your wallet address!
-        \nWait for Airdrop👍\n\nShare your referral link with friends, to earn 200 TFT per referral.\n\nReferral Link:\n\n\`${newReferralLink}\` *_(Tap to copy)_*`,
+        \nWait for Airdrop👍\n\nShare your referral link with friends, to earn 200 TFT per referral.\n\nReferral Link:\n\n\`${newReferralLink}\`\n_(Tap to copy)_`,
           { parse_mode: "Markdown" }
         );
         // isDone = false;
