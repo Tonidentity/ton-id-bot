@@ -12,9 +12,9 @@ const handleReferral = require("./helpers/handleReferral");
 const BotUser = require("./model/BotUserModel");
 const validateWalletAddress = require("./helpers/validateWalletAddress");
 const checkMembership = require("./helpers/checkMembership");
-const Queue = require("queue-promise");
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const fs = require('fs');
+const Queue= require("queue-promise");
 
 // Serve static files from the root directory
 // app.use(express.static(__dirname));
