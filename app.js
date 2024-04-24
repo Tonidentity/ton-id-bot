@@ -216,7 +216,7 @@ bot.start(async (ctx) => {
         referralLink: linkFirstChunk + inviteId,
       });
 
-      //Inform user they've already referred, and show their referral link
+      //Inform user they've been already referred, and show their referral link
       if (userExists) {
         return await showUserDetails(userId, ctx, true);
       }
@@ -299,9 +299,10 @@ bot.start(async (ctx) => {
       return await handleReferral(ctx, linkOwnerData, userId);
     }
 
-    // if(userExists){
-    //   //use account balance to confirm is user has completed tasks
-    // }
+    //If they didn't come via a referral link but they have an account already
+    if (userExists) {
+      return await showUserDetails(userId, ctx);
+    }
 
     //check if user already exists
 
