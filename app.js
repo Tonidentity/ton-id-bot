@@ -12,7 +12,7 @@ const handleReferral = require("./helpers/handleReferral");
 const BotUser = require("./model/BotUserModel");
 const validateWalletAddress = require("./helpers/validateWalletAddress");
 const checkMembership = require("./helpers/checkMembership");
-const { default: Queue } = require("queue-promise");
+const Queue = require("queue-promise");
 const bot = new Telegraf(process.env.BOT_TOKEN);
 // const limitConfig = {
 //   window: 1000, // 1 second
