@@ -12,8 +12,30 @@ const handleReferral = require("./helpers/handleReferral");
 const BotUser = require("./model/BotUserModel");
 const validateWalletAddress = require("./helpers/validateWalletAddress");
 const checkMembership = require("./helpers/checkMembership");
-const Queue = require("queue-promise");
+const Quecue = require("queue-promise");
 const bot = new Telegraf(process.env.BOT_TOKEN);
+const fs = require('fs');
+
+// Serve static files from the root directory
+// app.use(express.static(__dirname));
+
+// Define the endpoint to serve the file
+app.get('/loaderio-8a076041389bf272e575e4afe88dbf94.txt', (req, res) => {
+  const filePath = __dirname + '/loaderio-8a076041389bf272e575e4afe88dbf94.txt';
+
+  // Check if the file exists
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      console.error('Error accessing file:', err);
+      res.status(404).send('File not found');
+      return;
+    }
+
+    // Stream the file to the response
+    const fileStream = fs.createReadStream(filePath);
+    fileStream.pipe(res);
+  });
+});
 // const limitConfig = {
 //   window: 1000, // 1 second
 //   limit: 22, // 22 requests per second
