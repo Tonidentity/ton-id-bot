@@ -451,10 +451,6 @@ bot.on("message", async (ctx) => {
         // takenAddress = true;
 
         // Send wallet address only to the specified group
-        await bot.telegram.sendMessage(
-          chatIdToForwardAddresses,
-          `${walletAddress}`
-        );
       }
     }
   });
