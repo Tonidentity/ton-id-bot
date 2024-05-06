@@ -270,8 +270,8 @@ bot.start(async (ctx) => {
                 inline_keyboard: [
                   [
                     {
-                      text: "Task 1: Follow Ton Identity on 𝕏",
-                      url: "https://x.com/ton_identity",
+                      text: "Task 1: Follow Ton Fam Token 𝕏",
+                      url: "https://x.com/ton_fam_token",
                     },
                   ],
                   [
@@ -333,8 +333,8 @@ bot.start(async (ctx) => {
         inline_keyboard: [
           [
             {
-              text: "Task 1: Follow Ton Identity on 𝕏",
-              url: "https://x.com/ton_identity",
+              text: "Task 1: Follow Ton Fam Token on 𝕏",
+              url: "https://x.com/ton_fam_token",
             },
           ],
           [
@@ -374,7 +374,7 @@ bot.action("take_wallet", async (ctx) => {
       return ctx.reply("An error occured, please try again.");
     }
 
-    //If user hasn't joined TG channel
+    //If user hasn't joined TG channels
     if (!joinedChannel.joined) {
       return ctx.reply(
         "You are yet to join our channel, please join @ton_idz to continue."
