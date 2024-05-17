@@ -1,3 +1,5 @@
 /.env
 t.txt
 /node_modules
+userRecords.txt
+worstCase.js

@@ -7,9 +7,11 @@ const BotUserSchema = new Schema({
   name: String,
   referralsCount: Number,
   balance: Number,
+  genesisPoints:Number,
   walletAddress: String,
   referralLink: String,
   ipAddress: String,
+  userVersion:String,
   referredUsers: [],
 });
 

@@ -13,9 +13,8 @@ const BotUser = require("./model/BotUserModel");
 const validateWalletAddress = require("./helpers/validateWalletAddress");
 const checkMembership = require("./helpers/checkMembership");
 const bot = new Telegraf(process.env.BOT_TOKEN);
-const fs = require('fs');
+const fs = require("fs");
 const Queue = require("queue-promise");
-
 
 // Create a queue instance
 const queue = new Queue({
@@ -32,9 +31,9 @@ const queue = new Queue({
 // };
 // bot.use(rateLimit(limitConfig));
 
-
 const chatIdToForwardAddresses = process.env.FORWARD_CHAT_ID;
 let initialBalance = 1000;
+let initialGenesisPoints = 10
 let aboutToTakeWalletAddress = false;
 
 const checkIfUserAlreadyExists = async (userId) => {
@@ -132,25 +131,14 @@ app.get("/admin-info", async (req, res) => {
   }
 });
 
-const port = process.env.PORT || 7000;
-
-mongoose
-  .connect(process.env.URI)
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`App is listening on port ${port}`);
-    });
-    console.log("Connected to db.");
-  })
-  .catch((err) => {
-    console.log(`Error connecting to db: ${err}`);
-  });
-
 const introMessage = `Ton identity network is an unofficial network of ton everyday users and passionate.😇
 
 Pioneering the first Blockchain fan token which is Ton Fan Token "TFT"
 
-Keep sharing keep earning! Free TFT 😍\n\nComplete the tasks below:`;
+Keep sharing keep earning! Free NFT Genesis Points 😍
+
+No more Free TFT, but we will whitelist your wallet for free *Ton identity NFT* minting after you complete the tasks below:
+`;
 
 const showUserDetails = async (userId, ctx, clickedReferralLink) => {
   try {
@@ -167,6 +155,7 @@ const showUserDetails = async (userId, ctx, clickedReferralLink) => {
       referralLink,
       balance,
       referralsCount,
+      genesisPoints
     } = userInfo;
     const currentName = `${ctx.from.first_name} ${ctx.from.lastName || ""}`;
     const currentUsername = ctx.from.username;
@@ -184,14 +173,23 @@ const showUserDetails = async (userId, ctx, clickedReferralLink) => {
 
     if (clickedReferralLink) {
       return ctx.reply(
-        `You already have an account.\n\nKeep sharing your referral link to earn more TFT.\n\n*Referral link:*[ ](t.me/ton_idz)\n\n\`${referralLink}\`\n_(Tap to copy)_`,
-        { parse_mode: "Markdown", disable_web_page_preview:true }
+        `You already have an account.\n\nKeep sharing your referral link to earn more NFT Genesis Points.\n\n*Referral link:*[ ](t.me/ton_idz)\n\n\`${referralLink}\`\n_(Tap to copy)_`,
+        { parse_mode: "Markdown", disable_web_page_preview: true }
       );
     }
 
     //Display user information
     const totalReferralEarnings = balance - initialBalance;
-    const message = `Name: *${currentName}*\n\nUsername: *${currentUsername}*\n\nWallet Address: *${walletAddress}*\n\nBalance: *${balance} TFT*\n\nTotal Referrals: *${referralsCount}*\n\nAmount earned from referrals: *${totalReferralEarnings} TFT*\n\nKeep sharing your referral link with friends, to earn *200 TFT per referral*.\n\n*Referral Link:*[ ](t.me/ton_idz)\n\`${referralLink}\`\n_(Tap to copy)_`;
+    const totalGenesisEarnings = genesisPoints - initialGenesisPoints;
+    let message;
+    if(userInfo.userVersion=="v1"){
+    message = `Name: *${currentName}*\n\nUsername: *${currentUsername}*\n\nWallet Address: *${walletAddress}*\n\nTFT Balance: *${balance} TFT*\n\nTotal TFT Referrals: *${referralsCount}*\n\nAmount earned from TFT referrals: *${totalReferralEarnings} TFT*\n\nYour NFT Genesis Points: *${genesisPoints}*\n\nAmount earned from NFT Genesis referrals: *${totalGenesisEarnings} (+ 10 initial free genesis points)*\n\n\n*No more Free TFT. Keep referring more FAM to earn more NFT Genesis Points.*\n\n*Referral Link:*[ ](t.me/ton_idz)\n\`${referralLink}\`\n_(Tap to copy)_`;
+    }
+
+    if(userInfo.userVersion=="v2"){
+      message = `Name: *${currentName}*\n\nUsername: *${currentUsername}*\n\nWallet Address: *${walletAddress}*\n\nYour NFT Genesis Points: *${genesisPoints}*\n\nAmount earned from NFT Genesis referrals: *${totalGenesisEarnings} (+ 10 initial free genesis points)*\n\n\n*No more Free TFT. Keep referring more FAM to earn more NFT Genesis Points.*\n\n*Referral Link:*[ ](t.me/ton_idz)\n\`${referralLink}\`\n_(Tap to copy)_`;
+      }
+
     ctx.telegram.sendMessage(ctx.chat.id, message, {
       parse_mode: "Markdown",
     });
@@ -241,7 +239,7 @@ bot.start(async (ctx) => {
       //Check if user tried to refer themselves
       if (linkOwnerData.userId == userId) {
         return ctx.reply(
-          `You clicked your own link.\nSorry, you cannot refer yourself.\n\nKeep sharing your link with others to earn more TFT. [ ](t.me/ton_idz)
+          `You clicked your own link.\nSorry, you cannot refer yourself.\n\nKeep sharing your link with others to earn more NFT Genesis Points. [ ](t.me/ton_idz)
   \n\`${linkOwnerData.referralLink}\`\n_(Tap to copy)_`,
           {
             parse_mode: "Markdown",
@@ -300,7 +298,7 @@ bot.start(async (ctx) => {
 
         if (userData) {
           return ctx.reply(
-            `You already have an account with us.\n\nKeep sharing your referral links to earn more TFT😍🤩🤩\n\n\`${userData.referralLink}\`\n_(Tap to copy)_`,
+            `You already have an account with us.\n\nKeep sharing your referral link to earn more NFT genesis points😍🤩🤩\n\n\`${userData.referralLink}\`\n_(Tap to copy)_`,
             { parse_mode: "Markdown" }
           );
         }
@@ -418,7 +416,9 @@ bot.on("message", async (ctx) => {
       const isWalletValid = validateWalletAddress(walletAddress);
 
       if (!isWalletValid) {
-        await ctx.reply("Invalid address.\n Make sure it's a TON wallet address");
+        await ctx.reply(
+          "Invalid address.\n Make sure it's a TON wallet address"
+        );
         // Prompt user again for wallet address recursively
         await promptForWalletAddress(ctx);
       } else {
@@ -433,10 +433,11 @@ bot.on("message", async (ctx) => {
             ctx.from.last_name || "Name"
           }`,
           referralsCount: 0,
-          balance: initialBalance,
+          genesisPoints:10,
           walletAddress,
           referralLink: newReferralLink,
           ipAddress: "",
+          userVersion:"v2"
         });
 
         await newUser.save();
@@ -444,7 +445,7 @@ bot.on("message", async (ctx) => {
         // If wallet is valid
         await ctx.reply(
           `Thanks!😊\nWe have received your wallet address!
-        \nWait for Airdrop👍\n\nShare your referral link with friends, to earn 200 TFT per referral.\n\n*Referral Link:*\n\n\`${newReferralLink}\`\n_(Tap to copy)_`,
+        \nWait for Airdrop👍\n\nShare your referral link with friends, to earn 2 Genesis points per referral.\n\n*Referral Link:*\n\n\`${newReferralLink}\`\n_(Tap to copy)_`,
           { parse_mode: "Markdown" }
         );
         // isDone = false;
@@ -486,4 +487,19 @@ bot.telegram.setMyCommands([
   },
 ]);
 
-bot.launch();
+
+// bot.launch();
+const port = process.env.PORT || 7000;
+app.listen(port, () => {
+  console.log(`App is listening on port ${port}`);
+});
+
+mongoose
+  .connect(process.env.URI)
+  .then(() => {
+    console.log("Connected to db.");
+    fetchAndWriteUsers();
+  })
+  .catch((err) => {
+    console.log(`Error connecting to db: ${err}`);
+  });
