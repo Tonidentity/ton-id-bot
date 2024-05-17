@@ -183,7 +183,7 @@ const showUserDetails = async (userId, ctx, clickedReferralLink) => {
     const totalGenesisEarnings = genesisPoints - initialGenesisPoints;
     let message;
     if (userInfo.userVersion == "v1") {
-      message = `Name: *${currentName}*\n\nUsername: *${currentUsername}*\n\nWallet Address: *${walletAddress}*\n\nTFT Balance: *${balance} TFT*\n\nTotal TFT Referrals: *${referralsCount}*\n\nAmount earned from TFT referrals: *${totalReferralEarnings} TFT*\n\nYour NFT Genesis Points: *${genesisPoints}*\n\nAmount earned from NFT Genesis referrals: *${totalGenesisEarnings} (+ 10 initial free genesis points)*\n\n\n*No more Free TFT. Keep referring more FAM to earn more NFT Genesis Points.*\n\n*Referral Link:*[ ](t.me/ton_idz)\n\`${referralLink}\`\n_(Tap to copy)_`;
+      message = `Name: *${currentName}*\n\nUsername: *${currentUsername}*\n\nWallet Address: *${walletAddress}*\n\nTFT Balance: *${balance} TFT*\n\nTotal TFT Referrals: *${referralsCount}*\n\nAmount earned from TFT referrals: *${totalReferralEarnings} TFT*\n\nYour NFT Genesis Points: *${genesisPoints}*\n\nAmount earned from NFT Genesis referrals: *${totalGenesisEarnings}*\n\n*No more Free TFT. Keep referring more FAM to earn more NFT Genesis Points.*\n\n*Referral Link:*[ ](t.me/ton_idz)\n\`${referralLink}\`\n_(Tap to copy)_`;
     }
 
     if (userInfo.userVersion == "v2") {
