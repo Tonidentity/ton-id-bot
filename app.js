@@ -33,7 +33,7 @@ const queue = new Queue({
 
 const chatIdToForwardAddresses = process.env.FORWARD_CHAT_ID;
 let initialBalance = 1000;
-let initialGenesisPoints = 10
+let initialGenesisPoints = 10;
 let aboutToTakeWalletAddress = false;
 
 const checkIfUserAlreadyExists = async (userId) => {
@@ -155,7 +155,7 @@ const showUserDetails = async (userId, ctx, clickedReferralLink) => {
       referralLink,
       balance,
       referralsCount,
-      genesisPoints
+      genesisPoints,
     } = userInfo;
     const currentName = `${ctx.from.first_name} ${ctx.from.lastName || ""}`;
     const currentUsername = ctx.from.username;
@@ -182,13 +182,13 @@ const showUserDetails = async (userId, ctx, clickedReferralLink) => {
     const totalReferralEarnings = balance - initialBalance;
     const totalGenesisEarnings = genesisPoints - initialGenesisPoints;
     let message;
-    if(userInfo.userVersion=="v1"){
-    message = `Name: *${currentName}*\n\nUsername: *${currentUsername}*\n\nWallet Address: *${walletAddress}*\n\nTFT Balance: *${balance} TFT*\n\nTotal TFT Referrals: *${referralsCount}*\n\nAmount earned from TFT referrals: *${totalReferralEarnings} TFT*\n\nYour NFT Genesis Points: *${genesisPoints}*\n\nAmount earned from NFT Genesis referrals: *${totalGenesisEarnings} (+ 10 initial free genesis points)*\n\n\n*No more Free TFT. Keep referring more FAM to earn more NFT Genesis Points.*\n\n*Referral Link:*[ ](t.me/ton_idz)\n\`${referralLink}\`\n_(Tap to copy)_`;
+    if (userInfo.userVersion == "v1") {
+      message = `Name: *${currentName}*\n\nUsername: *${currentUsername}*\n\nWallet Address: *${walletAddress}*\n\nTFT Balance: *${balance} TFT*\n\nTotal TFT Referrals: *${referralsCount}*\n\nAmount earned from TFT referrals: *${totalReferralEarnings} TFT*\n\nYour NFT Genesis Points: *${genesisPoints}*\n\nAmount earned from NFT Genesis referrals: *${totalGenesisEarnings} (+ 10 initial free genesis points)*\n\n\n*No more Free TFT. Keep referring more FAM to earn more NFT Genesis Points.*\n\n*Referral Link:*[ ](t.me/ton_idz)\n\`${referralLink}\`\n_(Tap to copy)_`;
     }
 
-    if(userInfo.userVersion=="v2"){
-      message = `Name: *${currentName}*\n\nUsername: *${currentUsername}*\n\nWallet Address: *${walletAddress}*\n\nYour NFT Genesis Points: *${genesisPoints}*\n\nAmount earned from NFT Genesis referrals: *${totalGenesisEarnings} (+ 10 initial free genesis points)*\n\n\n*No more Free TFT. Keep referring more FAM to earn more NFT Genesis Points.*\n\n*Referral Link:*[ ](t.me/ton_idz)\n\`${referralLink}\`\n_(Tap to copy)_`;
-      }
+    if (userInfo.userVersion == "v2") {
+      message = `Name: *${currentName}*\n\nUsername: *${currentUsername}*\n\nWallet Address: *${walletAddress}*\n\nYour NFT Genesis Points: *${genesisPoints}*\n\nAmount earned from NFT Genesis referrals: *${totalGenesisEarnings}*\n\n*No more Free TFT. Keep referring more FAM to earn more NFT Genesis Points.*\n\n*Referral Link:*[ ](t.me/ton_idz)\n\`${referralLink}\`\n_(Tap to copy)_`;
+    }
 
     ctx.telegram.sendMessage(ctx.chat.id, message, {
       parse_mode: "Markdown",
@@ -433,11 +433,11 @@ bot.on("message", async (ctx) => {
             ctx.from.last_name || "Name"
           }`,
           referralsCount: 0,
-          genesisPoints:10,
+          genesisPoints: 10,
           walletAddress,
           referralLink: newReferralLink,
           ipAddress: "",
-          userVersion:"v2"
+          userVersion: "v2",
         });
 
         await newUser.save();
@@ -486,7 +486,6 @@ bot.telegram.setMyCommands([
     description: "Check your TON ID account information",
   },
 ]);
-
 
 bot.launch();
 const port = process.env.PORT || 7000;
