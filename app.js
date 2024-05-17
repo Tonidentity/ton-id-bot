@@ -498,7 +498,6 @@ mongoose
   .connect(process.env.URI)
   .then(() => {
     console.log("Connected to db.");
-    fetchAndWriteUsers();
   })
   .catch((err) => {
     console.log(`Error connecting to db: ${err}`);
