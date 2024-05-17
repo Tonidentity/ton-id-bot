@@ -365,7 +365,7 @@ bot.action("take_wallet", async (ctx) => {
     // ctx.deleteMessage();
     //   }
 
-    const joinedChannel = await checkMembership(ctx);
+    const joinedChannel = await checkMembership(ctx, ["@ton_idz"]);
 
     //If join check failed
     if (!joinedChannel.success) {
