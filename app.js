@@ -268,7 +268,7 @@ bot.start(async (ctx) => {
                 inline_keyboard: [
                   [
                     {
-                      text: "Task 1: Follow Ton Fam Token 𝕏",
+                      text: "Task 1: Follow Ton Fam Token on 𝕏",
                       url: "https://x.com/ton_fam_token",
                     },
                   ],
@@ -281,7 +281,13 @@ bot.start(async (ctx) => {
                   [
                     {
                       text: "Task 3: Follow Ton Fan Token on 𝕏",
-                      url: "https://x.com/ton_fan_token",
+                      url: "https://x.com/ton_fan_token_",
+                    },
+                  ],
+                  [
+                    {
+                      text: "Task 4: Follow Ton Identity on 𝕏",
+                      url: "https://x.com/ton_identity",
                     },
                   ],
                   [
@@ -344,7 +350,13 @@ bot.start(async (ctx) => {
           [
             {
               text: "Task 3: Follow Ton Fan Token on 𝕏",
-              url: "https://x.com/ton_fan_token",
+              url: "https://x.com/ton_fan_token_",
+            },
+          ],
+          [
+            {
+              text: "Task 4: Follow Ton Identity on 𝕏",
+              url: "https://x.com/ton_identity",
             },
           ],
           [
@@ -355,6 +367,7 @@ bot.start(async (ctx) => {
           ],
         ],
       },
+      parse_mode:"Markdown"
     });
   });
 });

@@ -27,7 +27,13 @@ Keep sharing keep earning! Free TFT 😍\n\nComplete the tasks below:`;
         [
           {
             text: "Task 3: Follow Ton Fan Token on 𝕏",
-            url: "https://x.com/ton_fan_token",
+            url: "https://x.com/ton_fan_token_",
+          },
+        ],
+        [
+          {
+            text: "Task 4: Follow Ton Identity on 𝕏",
+            url: "https://x.com/ton_identity",
           },
         ],
         [
